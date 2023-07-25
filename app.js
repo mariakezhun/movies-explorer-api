@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const cors = require('cors');
 const routes = require('./routes/index');
 const ErrorMiddleware = require('./middlewares/ErrorMiddleware');
 const dataBase = require('./utils/dataBase');
@@ -14,7 +13,6 @@ mongoose.connect(dataBase);
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
 
 app.get('/crash-test', () => {
   setTimeout(() => {
