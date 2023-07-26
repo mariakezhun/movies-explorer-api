@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const ErrorMiddleware = require('./middlewares/ErrorMiddleware');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 
@@ -13,7 +14,18 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
+app.use(requestLogger);
+
 app.use(routes);
+
+app.use(errorLogger);
+
 app.use(errors());
 
 app.use(ErrorMiddleware);
