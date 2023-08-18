@@ -13,7 +13,7 @@ const createUser = (req, res, next) => {
     .then((user) => {
       const createdUser = user.toObject();
       delete createdUser.password;
-      res.status(STATUS_CREATED).send({ data: createdUser });
+      res.status(STATUS_CREATED).send(createdUser);
     })
     .catch((err) => {
       if (err.code === 11000) {
@@ -47,7 +47,7 @@ const login = (req, res, next) => {
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 };
@@ -65,7 +65,7 @@ const updateUser = (req, res, next) => {
     },
   )
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.code === 11000) {
