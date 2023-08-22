@@ -6,7 +6,7 @@ const { STATUS_CREATED } = require('../utils/status');
 const ConflictError = require('../errors/ConflictError');
 
 const createUser = (req, res, next) => {
-  const { email, name } = req.body;
+  const { name, email} = req.body;
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => User.create({ name, email, password: hash }))
@@ -19,7 +19,8 @@ const createUser = (req, res, next) => {
       if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже существует'));
       } else {
-        next(err);
+        res
+        .send({ message: err.message })
       }
     });
 };
